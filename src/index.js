@@ -1,6 +1,7 @@
 import express from 'express';
 import { join } from 'path';
 import config from './config/config';
+import subject from './routes/subject';
 import { notFound, catchErrors } from './middlewares/errors';
 import bodyParser from 'body-parser';
 import register from 'babel-core/register';
@@ -10,12 +11,12 @@ import babelPolyfill from 'babel-polyfill';
 import dbConfig from './config/database';
 import mongoose from 'mongoose';
 
-mongoose.connect(dbConfig.mongoUrl);
-mongoose.Promise = global.Promise;
-mongoose.connection.on('error', (err) => {
-    console.log('Could not connect to the database. Exiting now...');
-    process.exit();
-});
+// mongoose.connect(dbConfig.mongoUrl);
+// mongoose.Promise = global.Promise;
+// mongoose.connection.on('error', (err) => {
+//     console.log('Could not connect to the database. Exiting now...');
+//     process.exit();
+// });
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 
 // routes config
 // ...
+app.use('/api/subject', subject());
 
 // errors handling
 app.use(notFound);
